@@ -1,4 +1,4 @@
- # coding:utf-8
+# coding:utf-8
 """
 Módulo que prueba la clase PropReader del módulo input_output.prop_reader.
 """
