@@ -1,7 +1,7 @@
 # coding:utf-8
 import gi.repository.Gtk as Gtk
 import gi.repository.Gdk as Gdk
-from gui.objects_loader import ObjectsLoader
+from input_output.objects_loader import ObjectsLoader
 
 
 class ObjectPalette(Gtk.ToolPalette):
@@ -35,6 +35,6 @@ class ObjectPalette(Gtk.ToolPalette):
 
     def _loader_objects(self):
         loader = ObjectsLoader()
-        list = loader.loader_objects_groups()
+        list = loader.loader()
         for group in list:
             self.add_group(group)

@@ -1,5 +1,3 @@
-
-
 class ObjectsGroup:
 
     def __init__(self, label, list=None):
