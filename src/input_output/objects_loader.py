@@ -44,8 +44,8 @@ class ObjectsLoader:
                 if object.is_tool():
                     name = object.get_tool_name()
                     path_icon = object.get_url_icon()
-
-                    object_group.add_object(ObjectButton(name, path_icon, position))
+                    object_button = ObjectButton(name, path_icon, position, object)
+                    object_group.add_object(object_button)
                     position = position + 1
 
             groups.append(object_group)

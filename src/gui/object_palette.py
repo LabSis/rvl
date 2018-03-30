@@ -27,6 +27,7 @@ class ObjectPalette(Gtk.ToolPalette):
             button.set_label(object_button.label)
             image = Gtk.Image.new_from_file(object_button.icon_path)
             button.set_icon_widget(image)
+            button.object_button = object_button
             new_group.insert(button, object_button.position)
         self.add(new_group)
         self.groups.append(new_group)
