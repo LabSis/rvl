@@ -13,8 +13,14 @@ class Circle(shape.Shape):
     def __init__(self):
         pass
 
+    def get_tool_name(self):
+        return "Círculo"
+
+    def is_tool(self):
+        return True
+
     def get_url_icon(self):
-        return "recursos/img/router.png"
+        return "resources/img/circle-icon.png"
 
     def get_subtype(self):
         return "Circle"

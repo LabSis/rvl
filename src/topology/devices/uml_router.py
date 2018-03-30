@@ -37,13 +37,13 @@ class UMLRouter(dev.Device):
         self.add_interface(eth2)
 
     def get_tool_name(self):
-        return "UML Router"
+        return "Router"
 
     def is_tool(self):
         return True
 
     def get_url_icon(self):
-        return "recursos/img/router.png"
+        return "resources/img/router-icon.png"
 
     def get_position(self):
         return 0

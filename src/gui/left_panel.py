@@ -15,6 +15,7 @@ class LeftPanel(Gtk.Box):
         self.notebook = Gtk.Notebook()
         self.pack_start(self.notebook, True, True, 0)
         self._create_pages()
+        self.set_name("left_panel")
 
     def _create_pages(self):
         # Page object pallete

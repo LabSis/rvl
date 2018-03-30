@@ -23,14 +23,13 @@ class UMLServer(dev.Device):
         dev.Device.__init__(self, interfaces_amount)
 
     def get_tool_name(self):
-        return "UML Server"
+        return "Server"
 
     def is_tool(self):
         return True
 
-
     def get_url_icon(self):
-        return "recursos/img/server.png"
+        return "resources/img/server-icon.png"
 
     def get_subtype(self):
         return "Server"

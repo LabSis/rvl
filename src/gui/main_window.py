@@ -16,6 +16,7 @@ import gui.canvas_panel as Cp
 import input_output.config_file as CF
 import gi.repository.Gtk as Gtk
 import gi.repository.Gdk as Gdk
+from gui.left_panel import LeftPanel
 #import constantes as Const
 
 
@@ -139,6 +140,8 @@ class MainWindow(Gtk.Window):
         #objects_panel_event_box.add(objects_panel)
         objects_panel_event_box.set_name("objects_panel_event_box")
 
+        left_panel = LeftPanel()
+
         # Agrego el notebook
         notebook = Gtk.Notebook()
         notebook.append_page(objects_panel_event_box, Gtk.Label("Objetos"))
@@ -148,9 +151,9 @@ class MainWindow(Gtk.Window):
         notebook.set_scrollable(True)
 
         paned = Gtk.Paned(orientation=Gtk.Orientation.HORIZONTAL)
-        paned.pack1(notebook)
+        paned.pack1(left_panel)
         paned.pack2(scrollbar)
-        paned.set_position(self.get_default_size()[0] * 0.2)
+        paned.set_position(self.get_default_size()[0] * 0.3)
         paned.set_name("paned_central")
 
         event_paned_box = Gtk.EventBox()

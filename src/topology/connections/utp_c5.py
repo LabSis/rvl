@@ -5,10 +5,19 @@ import topology.devices.uml_server as uml_server
 import constants
 
 
-class UTPWire(con.Connection):
+class UTPC5(con.Connection):
 
     def __init__(self):
-        self.icon_path = "recursos/img/server.png"
+        pass
+
+    def get_tool_name(self):
+        return "Cable UTP-C5"
+
+    def is_tool(self):
+        return True
+
+    def get_url_icon(self):
+        return "resources/img/utp-c5-icon.png"
 
     def get_device1(self):
         return self._device1
@@ -35,9 +44,6 @@ class UTPWire(con.Connection):
 
     def set_interface2(self, interface2):
         self._interface2 = interface2
-
-    def get_url_icon(self):
-        return "recursos/img/router.png"
 
     def __repr__(self):
         return str(self._device1) + ' (' +  str(self._interface1) + ') <-> ' + str(self._device2) + ' (' +  str(self._interface1) + ')'

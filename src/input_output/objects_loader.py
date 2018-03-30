@@ -16,6 +16,7 @@ class ObjectsLoader:
     path_topology = 'topology'
     config_key = 'CONFIG'
     group_name_key = 'GROUP_NAME'
+    are_tools_key = 'ARE_TOOLS'
 
     def loader(self):
         groups = []
@@ -27,8 +28,9 @@ class ObjectsLoader:
             module = importlib.import_module(module_name)
 
             config = getattr(module, ObjectsLoader.config_key)
+            if not ObjectsLoader.are_tools_key in config or not config[ObjectsLoader.are_tools_key]:
+                continue
             group_name = config[ObjectsLoader.group_name_key]
-
             object_group = ObjectsGroup(group_name)
 
             reflective = PackageReflective("%s/%s" % (ObjectsLoader.path_topology, directory))
@@ -39,11 +41,12 @@ class ObjectsLoader:
 
             position = 0
             for object in objects:
-                name = object.get_tool_name()
-                path_icon = object.get_url_icon()
+                if object.is_tool():
+                    name = object.get_tool_name()
+                    path_icon = object.get_url_icon()
 
-                object_group.add_object(ObjectButton(name, path_icon, position))
-                position = position + 1
+                    object_group.add_object(ObjectButton(name, path_icon, position))
+                    position = position + 1
 
             groups.append(object_group)
 
