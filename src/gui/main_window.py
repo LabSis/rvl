@@ -119,18 +119,7 @@ class MainWindow(Gtk.Window):
         except Exception:
             height_canvas = self.get_screen().width()
 
-        try:
-            width_canvas_visible  = int(pr.get_value("ancho_canvas_visible"))
-        except Exception:
-            width_canvas_visible = self.get_screen().width()
-
-        try:
-            height_canvas_visible = int(pr.get_value("alto_canvas_visible"))
-        except Exception:
-            height_canvas_visible = self.get_screen().height()
-
-        if width_canvas <= 0 or height_canvas <= 0 or width_canvas_visible <= 0\
-            or height_canvas_visible < 0:
+        if width_canvas <= 0 or height_canvas <= 0:
             raise Exception("Error en el formato del tamaño del canvas")
 
         # Agrego el scrollbar
@@ -139,8 +128,7 @@ class MainWindow(Gtk.Window):
         scrollbar.set_policy(Gtk.PolicyType.AUTOMATIC,
             Gtk.PolicyType.AUTOMATIC)
 
-        self.canvas_panel = Cp.CanvasPanel(self, self.controller, width_canvas,
-                    height_canvas, width_canvas_visible, height_canvas_visible)
+        self.canvas_panel = Cp.CanvasPanel(self, self.controller, width_canvas, height_canvas)
 
         scrollbar.add_with_viewport(self.canvas_panel)
 
@@ -251,34 +239,11 @@ class MainWindow(Gtk.Window):
             Carga el estilo CSS de la aplicación.
         """
         style_provider = Gtk.CssProvider()
-        css = """
-            #canvas{
-                background-color: white;
-                margin: 10px;
-            }
-            #toolbar_event_box{
-                /*background-color: white;*/
-                margin: 4px;
-            }
-            #objects_panel_event_box{
-                background-color: #F5F5F5;
-                font-family: Verdana;
-            }
-            /*#main_event_box{
-                background-color: #BDB76B;
-            }
-            #paned_central_event_box{
-                background-color: black;
-            }*/
-            #toolbar GtkButton{
-                border-radius: 10px;
-                border: 1px solid #556B2F;
-            }
-            #toolbar GtkButton:hover{
-                border: 1px solid #FF8C00;
-            }
-        """
+        css = None
+        with open("gui/estilos.css", "r") as f:
+            css = f.read()
 
+        # Si el css no es válido lanzará una excepción.
         style_provider.load_from_data(bytearray(css, "UTF-8"))
 
         Gtk.StyleContext.add_provider_for_screen(

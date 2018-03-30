@@ -1,0 +1,29 @@
+#canvas {
+    background-color: white;
+    border: 1px solid black;
+}
+#canvas_panel {
+    background-color: #dbdbdb;
+}
+
+#toolbar_event_box{
+    /*background-color: white;*/
+    margin: 4px;
+}
+#objects_panel_event_box{
+    background-color: #F5F5F5;
+    font-family: Verdana;
+}
+/*#main_event_box{
+    background-color: #BDB76B;
+}
+#paned_central_event_box{
+    background-color: black;
+}*/
+#toolbar GtkButton{
+    border-radius: 10px;
+    border: 1px solid #556B2F;
+}
+#toolbar GtkButton:hover{
+    border: 1px solid #FF8C00;
+}

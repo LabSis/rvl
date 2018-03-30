@@ -11,8 +11,7 @@ except Exception as ex:
 
 class CanvasPanel(Gtk.Box):
 
-    def __init__(self, parent, controller, width_canvas, height_canvas,
-                 width_canvas_visible, height_canvas_visible):
+    def __init__(self, parent, controller, width_canvas, height_canvas):
         """
         Description:
             El tamaño del canvas está dado por width_canvas y height_canvas.
@@ -43,6 +42,7 @@ class CanvasPanel(Gtk.Box):
 
         self.canvas = canvas
 
+        self.canvas.set_name("canvas")
         self.set_name("canvas_panel")
 
         self.pack_start(container_fixed, True, True, 0)
