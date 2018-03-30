@@ -7,6 +7,7 @@ try:
     import lib.canvas as Canvas
 except Exception as ex:
     print(ex)
+from gui.drag_and_drop import IDragAndDropReceiverData
 
 
 class CanvasPanel(Gtk.Box):
@@ -31,7 +32,7 @@ class CanvasPanel(Gtk.Box):
                 Debe ser menor o igual que height_canvas.
         """
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
-        canvas = Canvas.Canvas()
+        canvas = WrapperCanvas()
         canvas.add_events(Gdk.EventMask.ALL_EVENTS_MASK)
         canvas.set_size_request(width_canvas, height_canvas)
 
@@ -47,9 +48,14 @@ class CanvasPanel(Gtk.Box):
 
         self.pack_start(container_fixed, True, True, 0)
 
-
     def add_last_canvas_object(self, canvas_object):
         self.canvas.add_last(canvas_object)
+
+
+class WrapperCanvas(Canvas.Canvas, IDragAndDropReceiverData):
+
+    def drag_data_received(self, widget, drag_context, x, y, data, info, time):
+        print(x, y)
 
 
 if __name__ == "__main__":

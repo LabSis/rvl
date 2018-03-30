@@ -19,14 +19,14 @@ class LeftPanel(Gtk.Box):
 
     def _create_pages(self):
         # Page object pallete
-        object_palette = ObjectPalette()
+        self.object_palette = ObjectPalette()
         name_page_palette = "Objetos"
-        self.notebook.append_page(object_palette, Gtk.Label(name_page_palette))
+        self.notebook.append_page(self.object_palette, Gtk.Label(name_page_palette))
 
         # Page job panel
-        job_panel = JobPanel()
+        self.job_panel = JobPanel()
         name_page_job = "Guías de trabajos"
-        self.notebook.append_page(job_panel, Gtk.Label(name_page_job))
+        self.notebook.append_page(self.job_panel, Gtk.Label(name_page_job))
 
 
 if __name__ == "__main__":

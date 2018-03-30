@@ -17,6 +17,8 @@ import input_output.config_file as CF
 import gi.repository.Gtk as Gtk
 import gi.repository.Gdk as Gdk
 from gui.left_panel import LeftPanel
+from gui.drag_and_drop import DragAndDrop
+
 #import constantes as Const
 
 
@@ -142,13 +144,8 @@ class MainWindow(Gtk.Window):
 
         left_panel = LeftPanel()
 
-        # Agrego el notebook
-        notebook = Gtk.Notebook()
-        notebook.append_page(objects_panel_event_box, Gtk.Label("Objetos"))
-        notebook.set_tab_detachable(objects_panel_event_box, True)
-        notebook.set_group_name("principal")
-        notebook.set_show_border(True)
-        notebook.set_scrollable(True)
+        drag_and_drop = DragAndDrop()
+        drag_and_drop.connect(left_panel.object_palette, self.canvas_panel.canvas)
 
         paned = Gtk.Paned(orientation=Gtk.Orientation.HORIZONTAL)
         paned.pack1(left_panel)

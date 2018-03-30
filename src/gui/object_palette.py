@@ -12,10 +12,6 @@ class ObjectPalette(Gtk.ToolPalette):
         self.groups = []
         self._loader_objects()
 
-    def add_drag_dest(self, widget):
-        self.set_drag_source(widget, Gtk.DestDefaults.ALL, Gtk.ToolPaletteDragTargets.ITEMS,
-                           Gdk.DragAction.COPY)
-
     def add_group(self, objects_group):
         """
         Agrega un grupo al toolpalette y a la lista de groups.
