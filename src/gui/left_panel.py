@@ -27,6 +27,7 @@ class LeftPanel(Gtk.Box):
         name_page_job = "Guías de trabajos"
         self.notebook.append_page(job_panel, Gtk.Label(name_page_job))
 
+
 if __name__ == "__main__":
     import sys
     sys.path.append(".")
