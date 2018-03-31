@@ -6,7 +6,7 @@ from task.task import Task
 class RemoveDeviceTask(Task):
 
     def __init__(self):
-        pass
+        super().__init__()
 
     def run(self, main_controller):
         print("Eliminando")

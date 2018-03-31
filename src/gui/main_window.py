@@ -36,6 +36,7 @@ class MainWindow(Gtk.Window):
     def __init__(self, controller):
         Gtk.Window.__init__(self)
         self.controller = controller
+        self.canvas_panel = None
 
     def open_window(self, width, height, maximize):
         self.set_default_size(width, height)
@@ -132,6 +133,8 @@ class MainWindow(Gtk.Window):
             Gtk.PolicyType.AUTOMATIC)
 
         self.canvas_panel = Cp.CanvasPanel(self, self.controller, width_canvas, height_canvas)
+        print(self.canvas_panel)
+        print(self)
 
         scrollbar.add_with_viewport(self.canvas_panel)
 

@@ -23,15 +23,16 @@ class MainController():
     def __new__(cls):
         if MainController.__instance is None:
             MainController.__instance = object.__new__(cls)
+            MainController.__instance.window = Window.MainWindow(MainController.__instance)
+            MainController.__instance.log = Log.Logger(Log.GUI_MODE | Log.CONSOLE_MODE, MainController.__instance.window)
+            MainController.__instance.changed = False
+            MainController.__instance.ejecution_mode = False
+            propr = CF.ConfigFile()
+            MainController.__instance.path = propr.get_value("ruta_trabajo")
         return MainController.__instance
 
     def __init__(self):
-        self.window = Window.MainWindow(self)
-        self.log = Log.Logger(Log.GUI_MODE | Log.CONSOLE_MODE, self.window)
-        self.changed = False
-        self.ejecution_mode = False
-        propr = CF.ConfigFile()
-        self.path = propr.get_value("ruta_trabajo")
+        pass
 
     def add_device(self, device):
         print ("Agregando dispositivo")

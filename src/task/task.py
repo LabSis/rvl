@@ -28,8 +28,7 @@ class TaskRunner:
 
 class Task:
 
-    def __init__(self, data):
-        self.data = data
+    def __init__(self):
         self.memento = None
 
     def run(self, main_controller):

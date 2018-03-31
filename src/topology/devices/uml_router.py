@@ -36,6 +36,8 @@ class UMLRouter(dev.Device):
         self.add_interface(eth1)
         self.add_interface(eth2)
 
+        self.canvas_device = CanvasDevice(self.get_url_canvas_icon(), "Router", self)
+
     def get_tool_name(self):
         return "Router"
 
@@ -49,7 +51,7 @@ class UMLRouter(dev.Device):
         return "resources/img/router-canvas.png"
 
     def get_object_canvas(self):
-        return CanvasDevice(self.get_url_canvas_icon(), "Router", self)
+        return self.canvas_device
 
     def get_position(self):
         return 0

@@ -48,8 +48,8 @@ class CanvasPanel(Gtk.Box):
 
         self.pack_start(container_fixed, True, True, 0)
 
-    def add_last_canvas_object(self, canvas_object):
-        self.add_last_canvas_object(canvas_object)
+    def add_last_canvas_object(self, canvas_object, x, y):
+        self.canvas.add_last_canvas_object(canvas_object, x, y)
 
 
 class WrapperCanvas(Canvas.Canvas, IDragAndDropReceiverData):
@@ -58,15 +58,14 @@ class WrapperCanvas(Canvas.Canvas, IDragAndDropReceiverData):
         palette = Gtk.Widget.get_ancestor(Gtk.drag_get_source_widget(drag_context), Gtk.ToolPalette)
         if palette is not None:
             item = Gtk.ToolPalette.get_drag_item(palette, data)
-            etq = item.get_icon_name()
             if item is not None:
                 object_canvas = item.object_button.topology_object.get_object_canvas()
-                if not self.add_last_canvas_object(object_canvas, etq, x, y):
+                if not self.add_last_canvas_object(object_canvas, x, y):
                     print("No se pudo")
                     # self.log.warning("El dispositivo no se puede"
                     #                 " agregar. El nombre del dispositivo ya existe.")
 
-    def add_last_canvas_object(self, canvas_object, etq, x, y):
+    def add_last_canvas_object(self, canvas_object, x, y):
         canvas_object.set_x(x)
         canvas_object.set_y(y)
         self.add_ahead(canvas_object)
