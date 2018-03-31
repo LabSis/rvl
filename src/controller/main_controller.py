@@ -19,6 +19,11 @@ class MainController():
     """
     Esta clase representa el controlador general de la aplicación.
     """
+    __instance = None
+    def __new__(cls):
+        if MainController.__instance is None:
+            MainController.__instance = object.__new__(cls)
+        return MainController.__instance
 
     def __init__(self):
         self.window = Window.MainWindow(self)

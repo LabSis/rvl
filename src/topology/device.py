@@ -12,6 +12,8 @@ import constants
 import gi.repository.Gtk as Gtk
 import topology.topology_object as TO
 from lib.canvas import ObjectCanvas
+from task.remove_device_task import RemoveDeviceTask
+from task.task import execute_task
 
 
 class Device(TO.TopologyObject):
@@ -42,6 +44,8 @@ class Device(TO.TopologyObject):
         connect_item = Gtk.MenuItem("Conectar")
         disconnect_item = Gtk.MenuItem("Desconectar")
         remove_item = Gtk.MenuItem("Eliminar")
+        remove_device_task = RemoveDeviceTask()
+        remove_item.connect("activate", execute_task, remove_device_task)
         console_item = Gtk.MenuItem("Consola")
         console_item.set_sensitive(False)
         contextual_menu.append(connect_item)
