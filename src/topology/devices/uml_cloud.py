@@ -8,10 +8,10 @@ Extiende a la clase Device que incorpora mucha funcionalidad por defecto.
 """
 
 import topology.device as dev
-from topology.device import CanvasDevice
+from lib.canvas import ImageCanvas
 
 
-class UMLServer(dev.Device):
+class UMLCloud(dev.Device):
 
     def __init__(self, name="", configuration=None):
         # if configuration is None:
@@ -23,27 +23,27 @@ class UMLServer(dev.Device):
         dev.Device.__init__(self, interfaces_amount)
 
     def get_tool_name(self):
-        return "Servidor"
+        return "Nube"
 
     def is_tool(self):
         return True
 
     def get_url_icon(self):
-        return "resources/img/server-icon.png"
+        return "resources/img/cloud-icon.png"
 
     def get_url_canvas_icon(self):
-        return "resources/img/server-canvas.png"
+        return "resources/img/cloud-canvas.png"
 
     def get_object_canvas(self):
-        return CanvasDevice(self.get_url_canvas_icon(), "Servidor")
+        return ImageCanvas(self.get_url_canvas_icon())
 
     def get_subtype(self):
-        return "Server"
+        return "Nube"
 
     def __repr__(self):
-        return "Server"
+        return "Nube"
 
     def __copy__(self):
-        uml_server = UMLServer(self.name, self.configuration)
-        return uml_server
+        uml_cloud = UMLCloud(self.name, self.configuration)
+        return uml_cloud
 

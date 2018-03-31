@@ -9,7 +9,7 @@ import topology.device as dev
 
 import topology.interface as interface
 from topology.interfaces import eth_interface
-from lib.canvas import ImageCanvas
+from topology.device import CanvasDevice
 
 
 class UMLRouter(dev.Device):
@@ -45,8 +45,11 @@ class UMLRouter(dev.Device):
     def get_url_icon(self):
         return "resources/img/router-icon.png"
 
+    def get_url_canvas_icon(self):
+        return "resources/img/router-canvas.png"
+
     def get_object_canvas(self):
-        return ImageCanvas(self.get_url_icon())
+        return CanvasDevice(self.get_url_canvas_icon(), "Router")
 
     def get_position(self):
         return 0

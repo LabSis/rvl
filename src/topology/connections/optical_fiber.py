@@ -6,19 +6,19 @@ import constants
 import lib.canvas as canvas
 
 
-class UTPC5(con.Connection):
+class OpticalFiber(con.Connection):
 
     def __init__(self):
         pass
 
     def get_tool_name(self):
-        return "Cable UTP-C5"
+        return "Fibra óptica"
 
     def is_tool(self):
         return True
 
     def get_url_icon(self):
-        return "resources/img/utp-c5-icon.png"
+        return "resources/img/optical-fiber-icon.png"
 
     def get_object_canvas(self):
         line_canvas = canvas.LineCanvas()
