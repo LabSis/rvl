@@ -35,7 +35,7 @@ class UMLWorkstation(dev.Device):
         return "resources/img/workstation-canvas.png"
 
     def get_object_canvas(self):
-        return CanvasDevice(self.get_url_canvas_icon(), "Estación")
+        return CanvasDevice(self.get_url_canvas_icon(), "Estación", self)
 
     def get_subtype(self):
         return "Estación"

@@ -35,7 +35,7 @@ class UMLServer(dev.Device):
         return "resources/img/server-canvas.png"
 
     def get_object_canvas(self):
-        return CanvasDevice(self.get_url_canvas_icon(), "Servidor")
+        return CanvasDevice(self.get_url_canvas_icon(), "Servidor", self)
 
     def get_subtype(self):
         return "Server"

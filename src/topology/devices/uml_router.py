@@ -49,7 +49,7 @@ class UMLRouter(dev.Device):
         return "resources/img/router-canvas.png"
 
     def get_object_canvas(self):
-        return CanvasDevice(self.get_url_canvas_icon(), "Router")
+        return CanvasDevice(self.get_url_canvas_icon(), "Router", self)
 
     def get_position(self):
         return 0

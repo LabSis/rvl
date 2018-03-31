@@ -9,6 +9,7 @@ Esta clase es la padre de todos los dispositivos que se van a crear.
 """
 
 import constants
+import gi.repository.Gtk as Gtk
 import topology.topology_object as TO
 from lib.canvas import ObjectCanvas
 
@@ -35,6 +36,19 @@ class Device(TO.TopologyObject):
         # self._conections = []  # List<Connection>
         # self._interfaces = []
         # self._configure()
+
+    def get_contextual_menu(self):
+        contextual_menu = Gtk.Menu()
+        connect_item = Gtk.MenuItem("Conectar")
+        disconnect_item = Gtk.MenuItem("Desconectar")
+        remove_item = Gtk.MenuItem("Eliminar")
+        console_item = Gtk.MenuItem("Consola")
+        console_item.set_sensitive(False)
+        contextual_menu.append(connect_item)
+        contextual_menu.append(disconnect_item)
+        contextual_menu.append(remove_item)
+        contextual_menu.append(console_item)
+        return contextual_menu
 
     def add_interface(self, interface):
         if len(self._interfaces) >= self._interfaces_amount:
@@ -108,7 +122,7 @@ class CanvasDevice(ObjectCanvas):
     """
 
     """
-    def __init__(self, url_image, etiqueta):
+    def __init__(self, url_image, etiqueta, device):
         super().__init__()
         # cr = cairo.Context()
         # Se necesita el conext de cairo para obtener los text_extents de la etiqueta.
@@ -124,6 +138,8 @@ class CanvasDevice(ObjectCanvas):
         self.etiqueta = etiqueta
         self.cr = None
         self.text_image_distance = 0
+        self.device = device
+        self.contextual_menu = device.get_contextual_menu()
 
     def draw(self, w, cr):
         (x, y, text_width, text_height, dx, dy) = cr.text_extents(self.etiqueta)
@@ -146,3 +162,6 @@ class CanvasDevice(ObjectCanvas):
         cr.paint()
         #cr.stroke()
 
+    def ev_right_click(self, x, y):
+        self.contextual_menu.popup(None, None, None, None, 3, Gtk.get_current_event_time())
+        self.contextual_menu.show_all()
