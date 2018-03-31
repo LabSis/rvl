@@ -8,7 +8,7 @@ Extiende a la clase Device que incorpora mucha funcionalidad por defecto.
 """
 
 import topology.device as dev
-import topology.configuration as conf
+from lib.canvas import ImageCanvas
 
 
 class UMLServer(dev.Device):
@@ -30,6 +30,9 @@ class UMLServer(dev.Device):
 
     def get_url_icon(self):
         return "resources/img/server-icon.png"
+
+    def get_object_canvas(self):
+        return ImageCanvas(self.get_url_icon())
 
     def get_subtype(self):
         return "Server"

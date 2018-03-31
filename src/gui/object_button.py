@@ -7,7 +7,7 @@ class ObjectButton():
      que puede ser añadido a la topología.
     """
 
-    def __init__(self, label, icon_path, position, canvas_object):
+    def __init__(self, label, icon_path, position, topology_object):
         """
         :param label: string
         :param icon_path: path del icono
@@ -18,4 +18,4 @@ class ObjectButton():
         self.label = label
         self.icon_path = icon_path
         self.position = position
-        self.canvas_object = canvas_object
+        self.topology_object = topology_object
