@@ -19,6 +19,8 @@ class UMLWorkstation(dev.Device):
         #    configuration.set_attribute("quantity_nics", 1)
         #    configuration.set_attribute("ram", 64)
         #    configuration.set_attribute("diff_imagen", "full_servidor.dimg")
+        self.name = name
+        self.configuration = configuration
         interfaces_amount = 1
         dev.Device.__init__(self, interfaces_amount)
 

@@ -20,6 +20,7 @@ class UMLRouter(dev.Device):
         #    configuration.set_attribute("quantity_nics", 1)
         #    configuration.set_attribute("ram", 64)
         #    configuration.set_attribute("diff_imagen", "full_router.dimg")
+        self.name = name
         interfaces_amount = 3
         dev.Device.__init__(self, interfaces_amount)
 
@@ -63,6 +64,5 @@ class UMLRouter(dev.Device):
         return "Router"
 
     def __copy__(self):
-        uml_router = UMLRouter(self.name, self.configuration)
+        uml_router = UMLRouter(self.name)
         return uml_router
-

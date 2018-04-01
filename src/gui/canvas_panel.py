@@ -1,5 +1,6 @@
 # coding:utf-8
 
+import copy
 import gi.repository.Gtk as Gtk
 import gi.repository.Gdk as Gdk
 import gi.repository.Pango as Pango
@@ -32,7 +33,8 @@ class CanvasPanel(Gtk.Box):
                 Debe ser menor o igual que height_canvas.
         """
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
-        canvas = WrapperCanvas()
+        self.main_controller = controller
+        canvas = WrapperCanvas(controller)
         canvas.add_events(Gdk.EventMask.ALL_EVENTS_MASK)
         canvas.set_size_request(width_canvas, height_canvas)
 
@@ -48,27 +50,49 @@ class CanvasPanel(Gtk.Box):
 
         self.pack_start(container_fixed, True, True, 0)
 
+    def add_ahead_canvas_object(self, canvas_object, x, y):
+        self.canvas.add_ahead_canvas_object(canvas_object, x, y)
+
     def add_last_canvas_object(self, canvas_object, x, y):
         self.canvas.add_last_canvas_object(canvas_object, x, y)
 
 
 class WrapperCanvas(Canvas.Canvas, IDragAndDropReceiverData):
 
+    def __init__(self, main_controller):
+        super().__init__()
+        self.linking = False
+        self.connect_devices_task = None
+        self.main_controller = main_controller
+
     def drag_data_received(self, widget, drag_context, x, y, data, info, time):
         palette = Gtk.Widget.get_ancestor(Gtk.drag_get_source_widget(drag_context), Gtk.ToolPalette)
         if palette is not None:
             item = Gtk.ToolPalette.get_drag_item(palette, data)
             if item is not None:
-                object_canvas = item.object_button.topology_object.get_object_canvas()
-                if not self.add_last_canvas_object(object_canvas, x, y):
-                    print("No se pudo")
-                    # self.log.warning("El dispositivo no se puede"
-                    #                 " agregar. El nombre del dispositivo ya existe.")
+                topology_object = copy.copy(item.object_button.topology_object)
+                object_canvas = topology_object.get_object_canvas()
+                if not self.add_ahead_canvas_object(object_canvas, x, y):
+                    print("No se pudo agregar el dispositivo")
+                    #self.log.warning("No se pudo agregar el dispositivo")
+
+    def add_ahead_canvas_object(self, canvas_object, x, y):
+        canvas_object.set_x(x)
+        canvas_object.set_y(y)
+        self.add_ahead(canvas_object)
+        return False
 
     def add_last_canvas_object(self, canvas_object, x, y):
         canvas_object.set_x(x)
         canvas_object.set_y(y)
-        self.add_ahead(canvas_object)
+        self.add_last(canvas_object)
+        return True
+
+    def ev_left_click_in_empty_point(self, w, x, y):
+        if self.linking:
+            self.connect_devices_task.rollback(self.main_controller)
+        # pfx = random.uniform(0, 400)
+        # pfy = random.uniform(0, 400)
 
 
 if __name__ == "__main__":

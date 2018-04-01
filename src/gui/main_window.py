@@ -133,8 +133,6 @@ class MainWindow(Gtk.Window):
             Gtk.PolicyType.AUTOMATIC)
 
         self.canvas_panel = Cp.CanvasPanel(self, self.controller, width_canvas, height_canvas)
-        print(self.canvas_panel)
-        print(self)
 
         scrollbar.add_with_viewport(self.canvas_panel)
 
