@@ -1,7 +1,5 @@
 #coding:utf-8
 
-from controller.main_controller import MainController
-
 
 def execute_task(widget, task):
     task_runner = TaskRunner()
@@ -16,6 +14,7 @@ class TaskRunner:
         return TaskRunner.__instance
 
     def __init__(self):
+        from controller.main_controller import MainController
         self.main_controller = MainController()
         self.tasks_queue = []
 

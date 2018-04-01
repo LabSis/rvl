@@ -9,6 +9,7 @@ try:
 except Exception as ex:
     print(ex)
 from gui.drag_and_drop import IDragAndDropReceiverData
+from task.end_connection_between_devices_task import EndConnectionBetweenDevicesTask
 
 
 class CanvasPanel(Gtk.Box):
@@ -91,8 +92,14 @@ class WrapperCanvas(Canvas.Canvas, IDragAndDropReceiverData):
     def ev_left_click_in_empty_point(self, w, x, y):
         if self.linking:
             self.connect_devices_task.rollback(self.main_controller)
-        # pfx = random.uniform(0, 400)
-        # pfy = random.uniform(0, 400)
+
+    def ev_left_click_in_object(self, w, x, y):
+        if self.linking:
+            end_connection = EndConnectionBetweenDevicesTask()
+            end_connection.connect_devices_task =  self.connect_devices_task
+            self.connect_devices_task.rollback(self.main_controller)
+            end_connection.run(self.main_controller)
+            print("NUEVA CONEXIÓN")
 
 
 if __name__ == "__main__":
