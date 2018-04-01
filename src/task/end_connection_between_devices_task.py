@@ -16,8 +16,8 @@ class EndConnectionBetweenDevicesTask(Task):
         linking_object = self.connect_devices_task.linking_object
         xi = linking_object.pfx
         yi = linking_object.pfy
-        width = linking_object.get_width()
-        height = linking_object.get_height()
+        width = linking_object.get_x() - linking_object.pfx
+        height = linking_object.get_y() - linking_object.pfy
         obj = LineCanvas()
         obj.set_x(xi)
         obj.set_y(yi)
