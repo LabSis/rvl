@@ -4,9 +4,9 @@
 Este módulo contiene la clase Topology y la clase IdGenerator
 """
 
-import constants
-import controller.statistics as st
-from events import added_event, removed_event
+#import constants
+#import controller.statistics as st
+#from events import added_event, removed_event
 
 
 class Topology():
@@ -43,8 +43,9 @@ class Topology():
                 self._ids.append(new_id)
 
                 # Run event
-                event = added_event.AddedEvent()
-                obj.callback_added(event, self)
+                # TODO
+                # event = added_event.AddedEvent()
+                # obj.callback_added(event, self)
                 return True
             else:
                 return False
@@ -78,11 +79,16 @@ class Topology():
             index = self._objects.index(obj)
             self._ids.pop(index)
             self._objects.remove(obj)
-            event = removed_event.RemovedEvent()
-            obj.callback_removed(event, self)
+            # event = removed_event.RemovedEvent()
+            # obj.callback_removed(event, self)
         except:
             ok = False
         return ok
+
+    def __str__(self):
+        string = "Objetos: "
+        string += str(self.get_objects())
+        return string
 
 """
     def add_communication(self, com):
