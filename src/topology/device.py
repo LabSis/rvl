@@ -114,6 +114,9 @@ class Device(TO.TopologyObject):
             return None
         return self._interfaces[i]
 
+    def get_interfaces(self):
+        return self._interfaces
+
     def get_interfaces_amount(self):
         return self._interfaces_amount
 
@@ -186,6 +189,18 @@ class CanvasDevice(ObjectCanvas):
         self.text_image_distance = 0
         self.device = device
         self.contextual_menu = device.get_contextual_menu()
+
+    def get_xc(self):
+        return self.get_x() + self.get_width() / 2
+
+    def get_yc(self):
+        return self.get_y() + self.get_height() / 2
+
+    def move(self, s):
+        super().move(s)
+        #for interface in self.device.get_interfaces():
+        #    if interface.is_used():
+        #        interface.interface_canvas.move(s)
 
     def draw(self, w, cr):
         (x, y, text_width, text_height, dx, dy) = cr.text_extents(self.etiqueta)

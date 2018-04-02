@@ -18,7 +18,7 @@ class Interface(TO.TopologyObject):
         Representa una interfaz de red (Network Interface Card).
     """
     def __init__(self):
-        pass
+        self.interface_canvas = None
 
     def is_visible(self):
         return False

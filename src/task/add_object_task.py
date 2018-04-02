@@ -15,5 +15,9 @@ class AddObjectTask(Task):
         object_canvas = self.topology_object.get_object_canvas()
         main_controller.window.canvas_panel.add_ahead_canvas_object(object_canvas, self.x, self.y)
 
+        main_controller.topology.add_object(self.topology_object)
+        if main_controller.verbose:
+            print(main_controller.topology)
+
     def rollback(self, main_controller):
         print("Rollback")

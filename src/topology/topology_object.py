@@ -85,6 +85,9 @@ class TopologyObject(canvas.ObjectCanvas):
         """
         self._name = name
 
+    def set_id(self, id):
+        self.id = id
+
     def is_visible(self):
         """
         Description:

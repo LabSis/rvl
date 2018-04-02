@@ -97,13 +97,17 @@ class WrapperCanvas(Canvas.Canvas, IDragAndDropReceiverData):
         if self.linking:
             self.connect_devices_task.rollback(self.main_controller)
 
-    def ev_left_click_in_object(self, w, x, y):
+    def ev_left_click_in_object(self, obj, x, y):
         if self.linking:
             end_connection = EndConnectionBetweenDevicesTask()
-            end_connection.connect_devices_task =  self.connect_devices_task
+            end_connection.connect_devices_task = self.connect_devices_task
+            end_connection.initial_device = self.connect_devices_task.initial_device
+            end_connection.initial_interface = self.connect_devices_task.initial_interface
+            # TODO buscar el final_device and final_interface
             self.connect_devices_task.rollback(self.main_controller)
             end_connection.run(self.main_controller)
             print("NUEVA CONEXIÓN")
+        print (self.main_controller.topology.get_object(obj.device.get_id()))
 
 
 if __name__ == "__main__":
