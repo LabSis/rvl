@@ -9,6 +9,7 @@ class ConnectDevicesTask(Task):
     def __init__(self):
         super().__init__()
         self.initial_device = None
+        self.interface = None
         self.linking_object = None
         self.object_canvas = None
 

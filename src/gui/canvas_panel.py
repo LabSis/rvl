@@ -10,6 +10,8 @@ except Exception as ex:
     print(ex)
 from gui.drag_and_drop import IDragAndDropReceiverData
 from task.end_connection_between_devices_task import EndConnectionBetweenDevicesTask
+from task.add_object_task import AddObjectTask
+from task.task import execute_task
 
 
 class CanvasPanel(Gtk.Box):
@@ -72,9 +74,11 @@ class WrapperCanvas(Canvas.Canvas, IDragAndDropReceiverData):
             item = Gtk.ToolPalette.get_drag_item(palette, data)
             if item is not None:
                 topology_object = copy.copy(item.object_button.topology_object)
-                object_canvas = topology_object.get_object_canvas()
-                if not self.add_ahead_canvas_object(object_canvas, x, y):
-                    print("No se pudo agregar el dispositivo")
+                add_object_task = AddObjectTask(topology_object, x, y)
+                execute_task(None, add_object_task)
+                #object_canvas = topology_object.get_object_canvas()
+                #if not self.add_ahead_canvas_object(object_canvas, x, y):
+                    #print("No se pudo agregar el dispositivo")
                     #self.log.warning("No se pudo agregar el dispositivo")
 
     def add_ahead_canvas_object(self, canvas_object, x, y):

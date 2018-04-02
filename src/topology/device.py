@@ -14,6 +14,7 @@ import topology.topology_object as TO
 from lib.canvas import ObjectCanvas
 from task.remove_device_task import RemoveDeviceTask
 from task.connect_devices_task import ConnectDevicesTask
+from task.disconnect_devices_task import DisconnectDevicesTask
 from task.task import execute_task
 
 
@@ -41,14 +42,45 @@ class Device(TO.TopologyObject):
         # self._configure()
 
     def get_contextual_menu(self):
+        """
+        Retorna el menú contextual de un dispositivo.
+        Una subclase podría extender este menú si lo desea.
+        :return: Gtk.Menu
+        """
         contextual_menu = Gtk.Menu()
         # Connect button
         connect_item = Gtk.MenuItem("Conectar")
-        connect_devices_task = ConnectDevicesTask()
-        connect_devices_task.initial_device = self
-        connect_item.connect("activate", execute_task, connect_devices_task)
 
+        # Interfaces mostradas en el botón de conectar.
+        connect_submenu = Gtk.Menu()
+        for interface in self._interfaces:
+            interface_button = Gtk.MenuItem(interface.get_name())
+            if interface.is_used():
+                interface_button.set_sensitive(False)
+            else:
+                connect_devices_task = ConnectDevicesTask()
+                connect_devices_task.initial_device = self
+                connect_devices_task.initial_interface = interface
+                interface_button.connect("activate", execute_task, connect_devices_task)
+            connect_submenu.append(interface_button)
+        connect_item.set_submenu(connect_submenu)
+
+        # Disconnect button
         disconnect_item = Gtk.MenuItem("Desconectar")
+
+        # Interfaces mostradas en el botón de desconectar.
+        disconnect_submenu = Gtk.Menu()
+        for interface in self._interfaces:
+            interface_button = Gtk.MenuItem(interface.get_name())
+            if not interface.is_used():
+                interface_button.set_sensitive(False)
+            else:
+                disconnect_devices_task = DisconnectDevicesTask()
+                disconnect_devices_task.initial_device = self
+                disconnect_devices_task.initial_interface = interface
+                interface_button.connect("activate", execute_task, connect_devices_task)
+            disconnect_submenu.append(interface_button)
+        disconnect_item.set_submenu(disconnect_submenu)
 
         # Remove button
         remove_item = Gtk.MenuItem("Eliminar")

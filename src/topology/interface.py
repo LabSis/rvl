@@ -23,5 +23,8 @@ class Interface(TO.TopologyObject):
     def is_visible(self):
         return False
 
-    def __repr(self):
+    def is_used(self):
+        return False
+
+    def __repr__(self):
         return "%s" % (self._name)
