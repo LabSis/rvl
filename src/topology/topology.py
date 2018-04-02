@@ -41,6 +41,7 @@ class Topology():
                 self._objects.append(obj)
                 new_id = "object-%d" % self._id_generator.next_id()
                 self._ids.append(new_id)
+                obj.set_id(new_id)
 
                 # Run event
                 # TODO
@@ -66,6 +67,14 @@ class Topology():
 
     def get_ids(self):
         return self._ids
+
+    def get_object(self, id_a_buscar):
+        i = 0
+        for id in self._ids:
+            if id == id_a_buscar:
+                return self._objects[i]
+            i += 1
+        return None
 
     def get_objects(self):
         return self._objects
