@@ -10,7 +10,7 @@ import input_output.reflective as Ref
 import input_output.logger as Log
 
 import gui.main_window as Window
-#import topology.topology as Top
+import topology.topology as Top
 import gi.repository.Gtk as Gtk
 import constants as Constants
 
@@ -146,6 +146,8 @@ class MainController():
             width = int(propr.get_value("ancho_ventana"))
             height = int(propr.get_value("alto_ventana"))
             maximize = propr.get_value("pantalla_completa") == Constants.YES
+            self.new_topology()
+            self.verbose = True
             self.window.open_window(width, height, maximize)
             # Luego de esto no se ejecuta más hasta cerrar la aplicación.
         except Exception as e:
