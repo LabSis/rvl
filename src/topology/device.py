@@ -8,7 +8,7 @@ Esta clase es la padre de todos los dispositivos que se van a crear.
 
 """
 
-import constants
+import cairo
 import gi.repository.Gtk as Gtk
 import topology.topology_object as TO
 from lib.canvas import ObjectCanvas
@@ -168,27 +168,22 @@ class Device(TO.TopologyObject):
 
 
 class DeviceCanvas(ObjectCanvas):
-    """
 
-    """
     def __init__(self, url_image, etiqueta, device):
         super().__init__()
-        # cr = cairo.Context()
-        # Se necesita el conext de cairo para obtener los text_extents de la etiqueta.
-        # (x, y, width, height, dx, dy) = cr.text_extents(etiqueta)
-        # print((x, y, width, height, dx, dy))
-        import cairo
         self.url_image = url_image
         self.image = cairo.ImageSurface.create_from_png(self.url_image)
         self.set_width(self.image.get_width())
         self.set_height(self.image.get_height())
-        self.expandable = False
 
         self.etiqueta = etiqueta
         self.cr = None
         self.text_image_distance = 0
         self.device = device
         self.contextual_menu = device.get_contextual_menu()
+
+        self.expandable = False
+        self.rotable = False
 
     def get_xc(self):
         return self.get_x() + self.get_width() / 2
@@ -204,15 +199,13 @@ class DeviceCanvas(ObjectCanvas):
                 object_canvas.move(s, self.device)
 
     def repaint(self):
-        print("repaint device")
+        super().repaint()
         for interface in self.device.get_interfaces():
             if interface.is_used():
                 object_canvas = interface.connection.get_object_canvas()
                 object_canvas.repaint()
-        super().repaint()
 
     def draw(self, w, cr):
-        print("draw device")
         (x, y, text_width, text_height, dx, dy) = cr.text_extents(self.etiqueta)
         if self.cr is None:
             self.cr = cr
@@ -231,7 +224,6 @@ class DeviceCanvas(ObjectCanvas):
 
         cr.set_source_surface(self.image, self.get_x() + self.text_image_distance, self.get_y())
         cr.paint()
-        #cr.stroke()
 
     def ev_right_click(self, x, y):
         self.contextual_menu.popup(None, None, None, None, 3, Gtk.get_current_event_time())

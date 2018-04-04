@@ -73,7 +73,6 @@ class WireConnectionCanvas(ObjectCanvas):
         max_y = max(self.old_final_y, self.old_initial_y, initial_object_canvas.get_yc(), final_object_canvas.get_yc())
         repaint_width = abs(max_x - min_x)
         repaint_height = abs(max_y - min_y)
-        print(repaint_width, repaint_height)
         self.canvas.queue_draw_area(min_x - 3, min_y - 3, repaint_width + 6, repaint_height + 6)
 
     def draw(self, w, cr):
