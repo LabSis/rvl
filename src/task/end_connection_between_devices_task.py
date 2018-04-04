@@ -20,7 +20,7 @@ class EndConnectionBetweenDevicesTask(Task):
         self.initial_interface = None
         self.final_device = None
         self.final_interface = None
-        self.conection = None
+        self.connection = None
         self.connect_devices_task = None
 
     def run(self, main_controller):
@@ -45,14 +45,21 @@ class EndConnectionBetweenDevicesTask(Task):
         if self.final_interface is None:
             raise Exception('No se detectó interfaz final para realizar el enlace')
 
-        if self.conection is None:
+        if self.connection is None:
             raise Exception('No se detectó conexión para realizar el enlace')
 
         width = xf - xi
         height = yf - yi
 
-        connection_canvas = self.conection.get_object_canvas()
+        connection_canvas = self.connection.get_object_canvas()
         if connection_canvas is not None:
+            self.initial_interface.device = self.initial_device
+            self.initial_interface.connection = self.connection
+            self.final_interface.connection = self.connection
+            self.connection.set_device1(self.initial_device, self.initial_interface)
+            self.connection.set_device2(self.final_device, self.final_interface)
+            self.initial_interface.used = True
+            self.final_interface.used = True
             connection_canvas.set_x(xi)
             connection_canvas.set_y(yi)
             connection_canvas.set_width(width)

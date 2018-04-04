@@ -6,11 +6,12 @@ import constants
 import lib.canvas as canvas
 
 
-class OpticalFiber(con.Connection):
+class OpticalFiber(con.WireConnectionCanvas):
 
     def __init__(self):
         self.devices = [None, None]
         self.interfaces = [None, None]
+        self.line_canvas = con.WireConnectionCanvas()
 
     def get_tool_name(self):
         return "Fibra óptica"
@@ -22,12 +23,7 @@ class OpticalFiber(con.Connection):
         return "resources/img/optical-fiber-icon.png"
 
     def get_object_canvas(self):
-        line_canvas = canvas.LineCanvas()
-        line_canvas.set_x(0)
-        line_canvas.set_y(0)
-        line_canvas.set_width(50)
-        line_canvas.set_height(50)
-        return line_canvas
+        return self.line_canvas
 
     def get_device1(self):
         return self.devices[0]
@@ -44,10 +40,12 @@ class OpticalFiber(con.Connection):
     def set_device1(self, device1, interface1):
         self.devices[0] = device1
         self.interfaces[0] = interface1
+        self.line_canvas.initial_device = device1
 
     def set_device2(self, device2, interface2):
         self.devices[1] = device2
         self.interfaces[1] = interface2
+        self.line_canvas.final_device = device2
 
     def set_interface1(self, interface1):
         self.interfaces[0] = interface1

@@ -197,12 +197,23 @@ class CanvasDevice(ObjectCanvas):
         return self.get_y() + self.get_height() / 2
 
     def move(self, s):
+        print("move device")
         super().move(s)
-        #for interface in self.device.get_interfaces():
-        #    if interface.is_used():
-        #        interface.interface_canvas.move(s)
+        for interface in self.device.get_interfaces():
+            if interface.is_used():
+                object_canvas = interface.connection.get_object_canvas()
+                object_canvas.move(s, self.device)
+
+    def repaint(self):
+        print("repaint device")
+        for interface in self.device.get_interfaces():
+            if interface.is_used():
+                object_canvas = interface.connection.get_object_canvas()
+                object_canvas.repaint()
+        super().repaint()
 
     def draw(self, w, cr):
+        print("draw device")
         (x, y, text_width, text_height, dx, dy) = cr.text_extents(self.etiqueta)
         if self.cr is None:
             self.cr = cr

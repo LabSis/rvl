@@ -12,6 +12,7 @@ from gui.drag_and_drop import IDragAndDropReceiverData
 from task.end_connection_between_devices_task import EndConnectionBetweenDevicesTask
 from task.add_object_task import AddObjectTask
 from task.task import execute_task
+from topology.connections.utp_c5 import UTPC5
 
 
 class CanvasPanel(Gtk.Box):
@@ -99,15 +100,17 @@ class WrapperCanvas(Canvas.Canvas, IDragAndDropReceiverData):
 
     def ev_left_click_in_object(self, obj, x, y):
         if self.linking:
+            final_device = self.main_controller.topology.get_object(obj.device.get_id())
             end_connection = EndConnectionBetweenDevicesTask()
             end_connection.connect_devices_task = self.connect_devices_task
             end_connection.initial_device = self.connect_devices_task.initial_device
             end_connection.initial_interface = self.connect_devices_task.initial_interface
-            # TODO buscar el final_device and final_interface
+            end_connection.final_device = final_device
+            end_connection.final_interface = final_device.get_interface(0)
+            upt_c5_connection = UTPC5()
+            end_connection.connection = upt_c5_connection
             self.connect_devices_task.rollback(self.main_controller)
             end_connection.run(self.main_controller)
-            print("NUEVA CONEXIÓN")
-        print (self.main_controller.topology.get_object(obj.device.get_id()))
 
 
 if __name__ == "__main__":

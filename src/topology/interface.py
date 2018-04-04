@@ -19,12 +19,15 @@ class Interface(TO.TopologyObject):
     """
     def __init__(self):
         self.interface_canvas = None
+        self.connection = None
+        self.device = None
+        self.used = False
 
     def is_visible(self):
         return False
 
     def is_used(self):
-        return False
+        return self.used
 
     def __repr__(self):
         return "%s" % (self._name)
