@@ -167,7 +167,7 @@ class Device(TO.TopologyObject):
         self._set_host_name(host_name)
 
 
-class CanvasDevice(ObjectCanvas):
+class DeviceCanvas(ObjectCanvas):
     """
 
     """
@@ -197,7 +197,6 @@ class CanvasDevice(ObjectCanvas):
         return self.get_y() + self.get_height() / 2
 
     def move(self, s):
-        print("move device")
         super().move(s)
         for interface in self.device.get_interfaces():
             if interface.is_used():

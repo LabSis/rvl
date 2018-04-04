@@ -8,7 +8,7 @@ Extiende a la clase Device que incorpora mucha funcionalidad por defecto.
 """
 
 import topology.device as dev
-from topology.device import CanvasDevice
+from topology.device import DeviceCanvas
 
 
 class UMLWorkstation(dev.Device):
@@ -37,7 +37,7 @@ class UMLWorkstation(dev.Device):
         return "resources/img/workstation-canvas.png"
 
     def get_object_canvas(self):
-        return CanvasDevice(self.get_url_canvas_icon(), "Estación", self)
+        return DeviceCanvas(self.get_url_canvas_icon(), "Estación", self)
 
     def get_subtype(self):
         return "Estación"

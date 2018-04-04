@@ -9,7 +9,7 @@ import topology.device as dev
 
 import topology.interface as interface
 from topology.interfaces import eth_interface
-from topology.device import CanvasDevice
+from topology.device import DeviceCanvas
 
 
 class UMLRouter(dev.Device):
@@ -37,7 +37,7 @@ class UMLRouter(dev.Device):
         self.add_interface(eth1)
         self.add_interface(eth2)
 
-        self.canvas_device = CanvasDevice(self.get_url_canvas_icon(), "Router", self)
+        self.canvas_device = DeviceCanvas(self.get_url_canvas_icon(), "Router", self)
 
     def get_tool_name(self):
         return "Router"

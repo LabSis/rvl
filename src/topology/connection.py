@@ -27,7 +27,24 @@ class WireConnectionCanvas(ObjectCanvas):
         self.old_final_x = self.x
         self.old_final_y = self.y
 
+        self.selectable = False
+        self.movable = False  # No se mueve por sí solo, depende de otro objeto.
+        self.expandable = False
+        self.rotable = False
+
+    def contains(self, x, y):
+        return False
+
     def move(self, s, device):
+        """
+        Tener en cuenta que este move(s) no es el mismo que se hereda de ObjectCanvas.
+
+        Este método debe llamarse desde el move() del device.
+
+        :param s: el vector desplazamiento.
+        :param device: es el dispositivo que se está moviendo.
+        """
+        # Guardar posiciones actuales de los dispositivos.
         initial_object_canvas = self.initial_device.get_object_canvas()
         final_object_canvas = self.final_device.get_object_canvas()
         self.old_initial_x = initial_object_canvas.get_xc()
@@ -35,15 +52,15 @@ class WireConnectionCanvas(ObjectCanvas):
         self.old_final_x = final_object_canvas.get_xc()
         self.old_final_y = final_object_canvas.get_yc()
 
+        # De acuerdo al dispositivo que se está moviendo hacer una u otra cosa.
         if device.get_id() == self.initial_device.get_id():
-            # Se mueve el dispositivo inicial, aplico movimiento al inicial.
+            # Se mueve el dispositivo inicial.
             self.x = initial_object_canvas.get_xc()
             self.y = initial_object_canvas.get_yc()
             self.width = self.get_width() - s.get_x()
             self.height = self.get_height() - s.get_y()
         elif device.get_id() == self.final_device.get_id():
-            print("Moviendo dispositivo final")
-            # Se mueve el dispositivo final, aplico movimiento al final.
+            # Se mueve el dispositivo final.
             self.width = self.get_width() + s.get_x()
             self.height = self.get_height() + s.get_y()
 
@@ -64,6 +81,3 @@ class WireConnectionCanvas(ObjectCanvas):
         cr.move_to(self.x, self.y)
         cr.line_to(self.width + self.x, self.height + self.y)
         cr.stroke()
-
-    def contains(self, x, y):
-        return False
