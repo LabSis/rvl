@@ -109,7 +109,7 @@ class WrapperCanvas(Canvas.Canvas, IDragAndDropReceiverData):
             end_connection.final_interface = final_device.get_interface(0)
             upt_c5_connection = UTPC5()
             end_connection.connection = upt_c5_connection
-            self.connect_devices_task.rollback(self.main_controller)
+            # self.connect_devices_task.rollback(self.main_controller)
             end_connection.run(self.main_controller)
 
 

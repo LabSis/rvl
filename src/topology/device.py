@@ -32,6 +32,9 @@ class Device(TO.TopologyObject):
         self._interfaces = []  # Network cards
         self._interfaces_amount = interfaces_amount  # Number of interfaces
         self.MAX_INTERFACES = 16  # Maximum number of interfaces
+        self.contextual_menu = None
+        self.interface_connect_buttons = []
+        self.interface_disconnect_buttons = []
 
         # self._name = name
         # self._set_host_name(name)
@@ -41,60 +44,102 @@ class Device(TO.TopologyObject):
         # self._interfaces = []
         # self._configure()
 
+    def _add_connect_devices_event(self, interface_button, interface):
+        if hasattr(interface_button, 'event_id'):
+            interface_button.disconnect(interface_button.event_id)
+        connect_devices_task = ConnectDevicesTask()
+        connect_devices_task.initial_device = self
+        connect_devices_task.initial_interface = interface
+        event_id = interface_button.connect("activate", execute_task, connect_devices_task)
+        interface_button.event_id = event_id
+
+    def _add_disconnect_devices_event(self, interface_button, interface):
+        if hasattr(interface_button, 'event_id'):
+            interface_button.disconnect(interface_button.event_id)
+        disconnect_devices_task = DisconnectDevicesTask()
+        disconnect_devices_task.initial_device = self
+        disconnect_devices_task.initial_interface = interface
+        event_id = interface_button.connect("activate", execute_task, disconnect_devices_task)
+        interface_button.event_id = event_id
+
     def get_contextual_menu(self):
         """
         Retorna el menú contextual de un dispositivo.
         Una subclase podría extender este menú si lo desea.
         :return: Gtk.Menu
         """
-        contextual_menu = Gtk.Menu()
-        # Connect button
-        connect_item = Gtk.MenuItem("Conectar")
+        if self.contextual_menu is None:
+            contextual_menu = Gtk.Menu()
+            # Connect button
+            connect_item = Gtk.MenuItem("Conectar")
 
-        # Interfaces mostradas en el botón de conectar.
-        connect_submenu = Gtk.Menu()
-        for interface in self._interfaces:
-            interface_button = Gtk.MenuItem(interface.get_name())
-            if interface.is_used():
-                interface_button.set_sensitive(False)
-            else:
-                connect_devices_task = ConnectDevicesTask()
-                connect_devices_task.initial_device = self
-                connect_devices_task.initial_interface = interface
-                interface_button.connect("activate", execute_task, connect_devices_task)
-            connect_submenu.append(interface_button)
-        connect_item.set_submenu(connect_submenu)
+            # Interfaces mostradas en el botón de conectar.
+            connect_submenu = Gtk.Menu()
+            for interface in self._interfaces:
+                interface_button = Gtk.MenuItem(interface.get_name())
+                if interface.is_used():
+                    interface_button.set_sensitive(False)
+                else:
+                    self._add_connect_devices_event(interface_button, interface)
+                connect_submenu.append(interface_button)
+                self.interface_connect_buttons.append(interface_button)
+            connect_item.set_submenu(connect_submenu)
 
-        # Disconnect button
-        disconnect_item = Gtk.MenuItem("Desconectar")
+            # Disconnect button
+            disconnect_item = Gtk.MenuItem("Desconectar")
 
-        # Interfaces mostradas en el botón de desconectar.
-        disconnect_submenu = Gtk.Menu()
-        for interface in self._interfaces:
-            interface_button = Gtk.MenuItem(interface.get_name())
-            if not interface.is_used():
-                interface_button.set_sensitive(False)
-            else:
-                disconnect_devices_task = DisconnectDevicesTask()
-                disconnect_devices_task.initial_device = self
-                disconnect_devices_task.initial_interface = interface
-                interface_button.connect("activate", execute_task, connect_devices_task)
-            disconnect_submenu.append(interface_button)
-        disconnect_item.set_submenu(disconnect_submenu)
+            # Interfaces mostradas en el botón de desconectar.
+            disconnect_submenu = Gtk.Menu()
+            for interface in self._interfaces:
+                interface_button = Gtk.MenuItem(interface.get_name())
+                if not interface.is_used():
+                    interface_button.set_sensitive(False)
+                else:
+                    self._add_disconnect_devices_event(interface_button, interface)
+                disconnect_submenu.append(interface_button)
+                self.interface_disconnect_buttons.append(interface_button)
+            disconnect_item.set_submenu(disconnect_submenu)
 
-        # Remove button
-        remove_item = Gtk.MenuItem("Eliminar")
-        remove_device_task = RemoveDeviceTask()
-        remove_item.connect("activate", execute_task, remove_device_task)
+            # Remove button
+            remove_item = Gtk.MenuItem("Eliminar")
+            remove_device_task = RemoveDeviceTask()
+            remove_item.connect("activate", execute_task, remove_device_task)
 
-        # Console button
-        console_item = Gtk.MenuItem("Consola")
-        console_item.set_sensitive(False)
-        contextual_menu.append(connect_item)
-        contextual_menu.append(disconnect_item)
-        contextual_menu.append(remove_item)
-        contextual_menu.append(console_item)
-        return contextual_menu
+            # Console button
+            console_item = Gtk.MenuItem("Consola")
+            console_item.set_sensitive(False)
+            contextual_menu.append(connect_item)
+            contextual_menu.append(disconnect_item)
+            contextual_menu.append(remove_item)
+            contextual_menu.append(console_item)
+
+            self.contextual_menu = contextual_menu
+        else:
+            # Para los botones que permiten conectar interfaces.
+            i = 0
+            for button in self.interface_connect_buttons:
+                interface = self._interfaces[i]
+                if interface.is_used():
+                    button.set_sensitive(False)
+                    if 'event_id' in button:
+                        button.disconnect(button.event_id)
+                else:
+                    button.set_sensitive(True)
+                    self._add_connect_devices_event(button, interface)
+                i += 1
+            # Para los botones que permiten desconectar interfaces.
+            i = 0
+            for button in self.interface_disconnect_buttons:
+                interface = self._interfaces[i]
+                if interface.is_used():
+                    button.set_sensitive(True)
+                    self._add_disconnect_devices_event(button, interface)
+                else:
+                    button.set_sensitive(False)
+                    if 'event_id' in button:
+                        button.disconnect(button.event_id)
+                i += 1
+        return self.contextual_menu
 
     def add_interface(self, interface):
         if len(self._interfaces) >= self._interfaces_amount:
@@ -180,7 +225,6 @@ class DeviceCanvas(ObjectCanvas):
         self.cr = None
         self.text_image_distance = 0
         self.device = device
-        self.contextual_menu = device.get_contextual_menu()
 
         self.expandable = False
         self.rotable = False
@@ -226,5 +270,6 @@ class DeviceCanvas(ObjectCanvas):
         cr.paint()
 
     def ev_right_click(self, x, y):
+        self.contextual_menu = self.device.get_contextual_menu()
         self.contextual_menu.popup(None, None, None, None, 3, Gtk.get_current_event_time())
         self.contextual_menu.show_all()

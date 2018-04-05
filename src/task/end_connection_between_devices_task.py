@@ -24,7 +24,10 @@ class EndConnectionBetweenDevicesTask(Task):
         self.connect_devices_task = None
 
     def run(self, main_controller):
-        linking_object = self.connect_devices_task.linking_object
+        linking_object_canvas = self.connect_devices_task.linking_object
+        main_controller.window.canvas_panel.canvas.linking = False
+        main_controller.window.canvas_panel.canvas.connect_devices_task = None
+        main_controller.window.canvas_panel.canvas.remove_object(linking_object_canvas)
         if self.initial_device is not None:
             initial_object_canvas = self.initial_device.get_object_canvas()
             xi = initial_object_canvas.get_xc()
