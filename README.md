@@ -1,9 +1,13 @@
+# Objetivo #
+Este proyecto permite crear y configurar topologías de red con el fin educativo.
+
+
 ## Ejecución ##
 
 $ python3 main.py
 
 
-## Tests unitarios ##
+## Ejecutar tests unitarios ##
 
 Ejemplos:
 
@@ -18,3 +22,8 @@ $ python3 -m unittest tests.topology.test_topology_object.TestTopologyObject.tes
 3) Para ejecutar todos los tests
 
 $ python3 -m unittest discover
+
+## Autores ##
+
+Laboratorio de Sistemas - UTN - FRC.
+
